@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "eutil",
+	"version": "${version}",
+	"name": "EarthMC Utils",
+	"description": "EarthMC向けのユーティリティMod。とあるとこのBotの機能が移植されたものです。",
+	"authors": [
+		"ぱるん"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/eutil/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.paln21.eutil.EUtil"
+		],
+		"client": [
+			"com.paln21.eutil.client.EUtilClient"
+		],
+		"modmenu": [
+			"com.paln21.eutil.client.EUtilModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"eutil.mixins.json",
+		{
+			"config": "eutil.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~1.21.11",
+		"java": ">=21",
+		"fabric-api": "*",
+		"modmenu": ">=17.0.0-alpha.1"
+	}
+}
