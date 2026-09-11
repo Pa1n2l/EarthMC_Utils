@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.text.Text;
 
 public class VotePartyHud {
 
@@ -22,15 +23,15 @@ public class VotePartyHud {
 		VotePartyConfig config = VotePartyConfig.get();
 		EarthMcApi.VotePartyStatus status = EarthMcApi.getLatest();
 
-		String line1;
-		String line2 = null;
+		Text line1;
+		Text line2 = null;
 		float progress = 0f;
 
 		if (!status.valid()) {
-			line1 = "VoteParty: 読込中...";
+			line1 = Text.translatable("eutil.hud.voteparty_loading");
 		} else {
-			line1 = "VoteParty: " + status.votesReceived() + " / " + status.target();
-			line2 = "残り " + status.numRemaining() + " 票";
+			line1 = Text.translatable("eutil.hud.voteparty_progress", status.votesReceived(), status.target());
+			line2 = Text.translatable("eutil.hud.votes_remaining", status.numRemaining());
 			progress = status.progress();
 		}
 

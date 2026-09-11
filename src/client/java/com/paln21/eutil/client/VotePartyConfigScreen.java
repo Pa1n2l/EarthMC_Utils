@@ -19,7 +19,7 @@ public class VotePartyConfigScreen extends Screen {
 	private TextFieldWidget barColorField;
 
 	public VotePartyConfigScreen(Screen parent) {
-		super(Text.literal("VoteParty HUD 設定"));
+		super(Text.translatable("eutil.config.title"));
 		this.parent = parent;
 		this.config = VotePartyConfig.get();
 	}
@@ -35,17 +35,17 @@ public class VotePartyConfigScreen extends Screen {
 		y += 24;
 
 		this.addDrawableChild(CyclingButtonWidget.<VotePartyConfig.Corner>builder(
-						corner -> Text.literal(cornerLabel(corner)), config.corner)
+						this::cornerLabel, config.corner)
 				.values(VotePartyConfig.Corner.values())
-				.build(centerX - widgetWidth / 2, y, widgetWidth, 20, Text.literal("表示位置"),
+				.build(centerX - widgetWidth / 2, y, widgetWidth, 20, Text.translatable("eutil.config.corner_label"),
 						(button, value) -> config.corner = value));
 		y += 24;
 
 		this.addDrawableChild(new SliderWidget(centerX - widgetWidth / 2, y, widgetWidth, 20,
-				Text.literal("横オフセット: " + config.offsetX), config.offsetX / 200.0) {
+				Text.translatable("eutil.config.offset_x", config.offsetX), config.offsetX / 200.0) {
 			@Override
 			protected void updateMessage() {
-				setMessage(Text.literal("横オフセット: " + (int) (this.value * 200)));
+				setMessage(Text.translatable("eutil.config.offset_x", (int) (this.value * 200)));
 			}
 
 			@Override
@@ -56,10 +56,10 @@ public class VotePartyConfigScreen extends Screen {
 		y += 24;
 
 		this.addDrawableChild(new SliderWidget(centerX - widgetWidth / 2, y, widgetWidth, 20,
-				Text.literal("縦オフセット: " + config.offsetY), config.offsetY / 200.0) {
+				Text.translatable("eutil.config.offset_y", config.offsetY), config.offsetY / 200.0) {
 			@Override
 			protected void updateMessage() {
-				setMessage(Text.literal("縦オフセット: " + (int) (this.value * 200)));
+				setMessage(Text.translatable("eutil.config.offset_y", (int) (this.value * 200)));
 			}
 
 			@Override
@@ -70,33 +70,33 @@ public class VotePartyConfigScreen extends Screen {
 		y += 24;
 
 		this.addDrawableChild(CyclingButtonWidget.onOffBuilder(config.showBar)
-				.build(centerX - widgetWidth / 2, y, widgetWidth, 20, Text.literal("進捗バー表示"),
+				.build(centerX - widgetWidth / 2, y, widgetWidth, 20, Text.translatable("eutil.config.show_bar"),
 						(button, value) -> config.showBar = value));
 		y += 24;
 
-		this.textColorField = new TextFieldWidget(this.textRenderer, centerX - widgetWidth / 2, y, widgetWidth, 20, Text.literal("文字色"));
+		this.textColorField = new TextFieldWidget(this.textRenderer, centerX - widgetWidth / 2, y, widgetWidth, 20, Text.translatable("eutil.config.text_color"));
 		this.textColorField.setMaxLength(7);
 		this.textColorField.setText(String.format("#%06X", config.textColor & 0xFFFFFF));
 		this.addDrawableChild(this.textColorField);
 		y += 24;
 
-		this.barColorField = new TextFieldWidget(this.textRenderer, centerX - widgetWidth / 2, y, widgetWidth, 20, Text.literal("バー色"));
+		this.barColorField = new TextFieldWidget(this.textRenderer, centerX - widgetWidth / 2, y, widgetWidth, 20, Text.translatable("eutil.config.bar_color"));
 		this.barColorField.setMaxLength(7);
 		this.barColorField.setText(String.format("#%06X", config.barFillColor & 0xFFFFFF));
 		this.addDrawableChild(this.barColorField);
 		y += 30;
 
-		this.addDrawableChild(ButtonWidget.builder(Text.literal("完了"), button -> this.close())
+		this.addDrawableChild(ButtonWidget.builder(Text.translatable("eutil.config.done"), button -> this.close())
 				.dimensions(centerX - widgetWidth / 2, y, widgetWidth, 20)
 				.build());
 	}
 
-	private static String cornerLabel(VotePartyConfig.Corner corner) {
+	private Text cornerLabel(VotePartyConfig.Corner corner) {
 		return switch (corner) {
-			case TOP_LEFT -> "位置: 左上";
-			case TOP_RIGHT -> "位置: 右上";
-			case BOTTOM_LEFT -> "位置: 左下";
-			case BOTTOM_RIGHT -> "位置: 右下";
+			case TOP_LEFT -> Text.translatable("eutil.config.corner.top_left");
+			case TOP_RIGHT -> Text.translatable("eutil.config.corner.top_right");
+			case BOTTOM_LEFT -> Text.translatable("eutil.config.corner.bottom_left");
+			case BOTTOM_RIGHT -> Text.translatable("eutil.config.corner.bottom_right");
 		};
 	}
 

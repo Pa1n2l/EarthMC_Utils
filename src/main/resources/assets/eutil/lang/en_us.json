@@ -1,0 +1,32 @@
+{
+  "eutil.hud.voteparty_loading": "VoteParty: Loading...",
+  "eutil.hud.voteparty_progress": "VoteParty: %s / %s",
+  "eutil.hud.votes_remaining": "%s votes remaining",
+
+  "eutil.falling.cache_building": "🌲 Fetching data on towns nearing collapse. Please wait and try again shortly.",
+  "eutil.falling.cache_empty": "🌲 No cached data on towns nearing collapse is currently available.",
+  "eutil.falling.no_towns_in_nation": "🌲 No towns nearing collapse were found for nation \"%s\".",
+  "eutil.falling.no_towns": "🌲 No towns nearing collapse were found.",
+  "eutil.falling.run_first": "🌲 Please run /falling first.",
+  "eutil.falling.remaining_time": "⏳%s remaining§r (collapses: %s JST)",
+  "eutil.falling.duration_with_days": "%1$sd %2$sh %3$sm",
+  "eutil.falling.duration_no_days": "%1$sh %2$sm",
+  "eutil.falling.list_title": "[%s] Towns Nearing Collapse%s | Page %s/%s",
+  "eutil.falling.coords": "Coords: [%s, %s, %s]",
+  "eutil.falling.mayor": "Mayor: %s",
+  "eutil.falling.stats": "👤Residents: %s 💎Plots: %s Balance: %sG",
+  "eutil.falling.flags": "%sCapital %sOpen %sOutsider Spawn %sPVP",
+
+  "eutil.config.title": "VoteParty HUD Settings",
+  "eutil.config.corner_label": "Display Position",
+  "eutil.config.corner.top_left": "Position: Top Left",
+  "eutil.config.corner.top_right": "Position: Top Right",
+  "eutil.config.corner.bottom_left": "Position: Bottom Left",
+  "eutil.config.corner.bottom_right": "Position: Bottom Right",
+  "eutil.config.offset_x": "Horizontal Offset: %s",
+  "eutil.config.offset_y": "Vertical Offset: %s",
+  "eutil.config.show_bar": "Show Progress Bar",
+  "eutil.config.text_color": "Text Color",
+  "eutil.config.bar_color": "Bar Color",
+  "eutil.config.done": "Done"
+}

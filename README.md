@@ -1,5 +1,7 @@
 # eUtil
 
+[English](README.en.md) | 日本語
+
 [EarthMC](https://earthmc.net/) 向けの Fabric クライアント Mod です。
 VoteParty の進捗表示や、崩壊予定(削除予定)の町を一覧できるコマンドなど、EarthMC をプレイする上で便利な機能をまとめています。
 

@@ -1,0 +1,32 @@
+{
+  "eutil.hud.voteparty_loading": "VoteParty: 読込中...",
+  "eutil.hud.voteparty_progress": "VoteParty: %s / %s",
+  "eutil.hud.votes_remaining": "残り %s 票",
+
+  "eutil.falling.cache_building": "🌲 崩壊予定の町データを取得中です。しばらく待ってから再実行してください。",
+  "eutil.falling.cache_empty": "🌲 現在、崩壊予定の町データ（キャッシュ）が存在しません。",
+  "eutil.falling.no_towns_in_nation": "🌲 国家「%s」に属する崩壊予定の町は見つかりませんでした。",
+  "eutil.falling.no_towns": "🌲 崩壊予定の町は見つかりませんでした。",
+  "eutil.falling.run_first": "🌲 先に /falling を実行してください。",
+  "eutil.falling.remaining_time": "⏳残り %s§r (崩壊予定: %s JST)",
+  "eutil.falling.duration_with_days": "%1$s日%2$s時間%3$s分",
+  "eutil.falling.duration_no_days": "%1$s時間%2$s分",
+  "eutil.falling.list_title": "[%s] 崩壊注意の町リスト%s | Page %s/%s",
+  "eutil.falling.coords": "座標: [%s, %s, %s]",
+  "eutil.falling.mayor": "市長: %s",
+  "eutil.falling.stats": "👤住民: %s人 💎プロット: %s 残高: %sG",
+  "eutil.falling.flags": "%s首都 %sオープン %s外人スポーン %sPVP",
+
+  "eutil.config.title": "VoteParty HUD 設定",
+  "eutil.config.corner_label": "表示位置",
+  "eutil.config.corner.top_left": "位置: 左上",
+  "eutil.config.corner.top_right": "位置: 右上",
+  "eutil.config.corner.bottom_left": "位置: 左下",
+  "eutil.config.corner.bottom_right": "位置: 右下",
+  "eutil.config.offset_x": "横オフセット: %s",
+  "eutil.config.offset_y": "縦オフセット: %s",
+  "eutil.config.show_bar": "進捗バー表示",
+  "eutil.config.text_color": "文字色",
+  "eutil.config.bar_color": "バー色",
+  "eutil.config.done": "完了"
+}

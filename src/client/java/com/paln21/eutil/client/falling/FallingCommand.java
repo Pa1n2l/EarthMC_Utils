@@ -62,10 +62,10 @@ public class FallingCommand {
 
 		List<FallingTown> cached = FallingCache.getFallingCache();
 		if (cached.isEmpty()) {
-			String msg = FallingCache.isBuilding()
-					? "🌲 崩壊予定の町データを取得中です。しばらく待ってから再実行してください。"
-					: "🌲 現在、崩壊予定の町データ（キャッシュ）が存在しません。";
-			source.sendFeedback(Text.literal(msg));
+			Text msg = FallingCache.isBuilding()
+					? Text.translatable("eutil.falling.cache_building")
+					: Text.translatable("eutil.falling.cache_empty");
+			source.sendFeedback(msg);
 			return 1;
 		}
 
@@ -76,10 +76,10 @@ public class FallingCommand {
 		}
 
 		if (townsList.isEmpty()) {
-			String msg = (targetNation != null && !targetNation.isBlank())
-					? "🌲 国家「" + targetNation + "」に属する崩壊予定の町は見つかりませんでした。"
-					: "🌲 崩壊予定の町は見つかりませんでした。";
-			source.sendFeedback(Text.literal(msg));
+			Text msg = (targetNation != null && !targetNation.isBlank())
+					? Text.translatable("eutil.falling.no_towns_in_nation", targetNation)
+					: Text.translatable("eutil.falling.no_towns");
+			source.sendFeedback(msg);
 			return 1;
 		}
 
@@ -98,7 +98,7 @@ public class FallingCommand {
 		FabricClientCommandSource source = ctx.getSource();
 
 		if (lastResult.isEmpty()) {
-			source.sendFeedback(Text.literal("🌲 先に /falling を実行してください。"));
+			source.sendFeedback(Text.translatable("eutil.falling.run_first"));
 			return 1;
 		}
 
@@ -134,10 +134,12 @@ public class FallingCommand {
 			color = "§a"; // それ以外: 緑
 		}
 
-		String remainingStr = (days > 0 ? days + "日" : "") + hours + "時間" + minutes + "分";
+		String remainingStr = days > 0
+				? Text.translatable("eutil.falling.duration_with_days", days, hours, minutes).getString()
+				: Text.translatable("eutil.falling.duration_no_days", hours, minutes).getString();
 		String deletionDateStr = ZonedDateTime.ofInstant(Instant.ofEpochMilli(deletionTimeMs), JST).format(DATE_FMT);
 
-		return color + "⏳残り " + remainingStr + "§r (崩壊予定: " + deletionDateStr + " JST)";
+		return color + Text.translatable("eutil.falling.remaining_time", remainingStr, deletionDateStr).getString();
 	}
 
 	private static void sortTowns(List<FallingTown> townsList, String sortOption) {
@@ -160,8 +162,9 @@ public class FallingCommand {
 		List<FallingTown> currentItems = lastResult.subList(start, end);
 
 		String titleNationStr = (lastNationFilter != null && !lastNationFilter.isBlank()) ? " [" + lastNationFilter + "]" : "";
-		MutableText message = Text.literal("§e[" + lastResult.size() + "] 崩壊注意の町リスト" + titleNationStr
-				+ " | Page " + currentPage + "/" + totalPages + "§r\n");
+		String titleStr = Text.translatable("eutil.falling.list_title",
+				lastResult.size(), titleNationStr, currentPage, totalPages).getString();
+		MutableText message = Text.literal("§e" + titleStr + "§r\n");
 
 		int itemNum = start;
 		for (FallingTown t : currentItems) {
@@ -172,13 +175,18 @@ public class FallingCommand {
 			String spawnIcon = t.canOutsidersSpawn() ? "⭕" : "❌";
 			String pvpIcon = t.pvp() ? "⭕" : "❌";
 
+			String coordsStr = Text.translatable("eutil.falling.coords", t.x(), t.y(), t.z()).getString();
+			String mayorStr = Text.translatable("eutil.falling.mayor", t.mayor()).getString();
+			String statsStr = Text.translatable("eutil.falling.stats", t.residents(), t.plots(), t.balance()).getString();
+			String flagsStr = Text.translatable("eutil.falling.flags", capIcon, openIcon, spawnIcon, pvpIcon).getString();
+
 			message.append(Text.literal("§6" + itemNum + ". " + t.name() + "§r (" + t.nation() + ")\n"));
 			message.append(Text.literal("  " + remainingTimeText(t.deletionTimeMs()) + "\n"));
-			message.append(Text.literal("  座標: [" + t.x() + ", " + t.y() + ", " + t.z() + "]\n")
+			message.append(Text.literal("  " + coordsStr + "\n")
 			    .styled(style -> style.withClickEvent(new ClickEvent.OpenUrl(java.net.URI.create(mapUrl)))));
-			message.append(Text.literal("  市長: " + t.mayor() + "\n"));
-			message.append(Text.literal("  👤住民: " + t.residents() + "人 💎プロット: " + t.plots() + " 残高: " + t.balance() + "G\n"));
-			message.append(Text.literal("  " + capIcon + "首都 " + openIcon + "オープン " + spawnIcon + "外人スポーン " + pvpIcon + "PVP\n\n"));
+			message.append(Text.literal("  " + mayorStr + "\n"));
+			message.append(Text.literal("  " + statsStr + "\n"));
+			message.append(Text.literal("  " + flagsStr + "\n\n"));
 		}
 
 		message.append(navButton("<<", "first", currentPage > 1));
