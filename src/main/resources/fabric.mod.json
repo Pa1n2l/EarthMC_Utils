@@ -8,10 +8,10 @@
 		"ぱるん"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://modrinth.com/project/eutils/",
+		"sources": "https://github.com/Pa1n2l/EarthMC_Utils"
 	},
-	"license": "CC0-1.0",
+	"license": "CC BY-NC 4.0",
 	"icon": "assets/eutil/icon.png",
 	"environment": "*",
 	"entrypoints": {
