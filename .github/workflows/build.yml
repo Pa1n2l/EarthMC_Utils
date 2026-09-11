@@ -2,9 +2,17 @@
 # and submitted pull request. This can help catch issues that only occur on
 # certain platforms or Java versions, and provides a first line of defence
 # against bad commits.
+#
+# On a successful push build to the default branch, the resulting jar is
+# also published as a GitHub Release. The tag is formatted as
+# "v<mod version>+<build number within that version>" (e.g. v1.4.2+3),
+# where the build number resets whenever the mod version changes.
 
 name: build
 on: [pull_request, push]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -28,3 +36,41 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+
+      - name: read mod version from built jar
+        if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        id: modversion
+        run: |
+          JAR=$(ls build/libs/*.jar | grep -v -e sources -e dev | head -n1)
+          VERSION=$(unzip -p "$JAR" fabric.mod.json | grep -Po '"version"\s*:\s*"\K[^"]+')
+          if [ -z "$VERSION" ]; then
+            echo "fabric.mod.json からバージョンを取得できませんでした" >&2
+            exit 1
+          fi
+          echo "jar=$JAR" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: determine build number for this version
+        if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        id: buildnum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="${{ steps.modversion.outputs.version }}"
+          LAST=$(gh release list --limit 1000 --json tagName -q '.[].tagName' \
+            | grep -E "^v${VERSION//./\\.}\+[0-9]+$" \
+            | sed -E 's/.*\+//' \
+            | sort -n \
+            | tail -n1)
+          NEXT=$(( ${LAST:-0} + 1 ))
+          echo "tag=v${VERSION}+${NEXT}" >> "$GITHUB_OUTPUT"
+
+      - name: create release
+        if: github.event_name == 'push' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ steps.buildnum.outputs.tag }}" \
+            "${{ steps.modversion.outputs.jar }}" \
+            --title "${{ steps.buildnum.outputs.tag }}" \
+            --generate-notes
